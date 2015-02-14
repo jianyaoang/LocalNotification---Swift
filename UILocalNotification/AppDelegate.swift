@@ -15,9 +15,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        /*
+
+        Interactive Notification ingredients = UIMutableUserNotificationAction, UIMutableUserNotificationCategory
+        
+        authenticationRequired = useful especially when device is locked. Setting to yes would mean notification only works when device is unlock
+        actitivationMode = Action performed during foreground or background
+        
+        
+        */
+        
+        var notificationActionOK = UIMutableUserNotificationAction()
+        notificationActionOK.identifier = "ACCEPT_IDENTIFIER"
+        notificationActionOK.title = "OK"
+        notificationActionOK.destructive = false
+        notificationActionOK.authenticationRequired = false
+        notificationActionOK.activationMode = UIUserNotificationActivationMode.Foreground
+        
+        var notificationActionCancel = UIMutableUserNotificationAction()
+        notificationActionCancel.identifier = "NOT_NOW_IDENTIFIER"
+        notificationActionCancel.title = "Not Now"
+        notificationActionCancel.destructive = false
+        notificationActionCancel.authenticationRequired = false
+        notificationActionCancel.activationMode = UIUserNotificationActivationMode.Background
+        
+        var notificationCategory = UIMutableUserNotificationCategory()
+        notificationCategory.identifier = "SWIFT_HELLO"
+        notificationCategory.setActions([notificationActionOK,notificationActionCancel], forContext: UIUserNotificationActionContext.Default)
+        notificationCategory.setActions([notificationActionOK,notificationActionCancel], forContext: UIUserNotificationActionContext.Minimal)
+        
+        var userLocalNotification = UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound | UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: NSSet(array:[notificationCategory]))
+        application.registerUserNotificationSettings(userLocalNotification)
+        application.applicationIconBadgeNumber = 1
+        
+        
+        /*
+        
+        Code below is for basic UILocalNotification, no interactive notification
+        
+
+        var userLocalNotification = UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound | UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: nil)
+        application.registerUserNotificationSettings(userLocalNotification)
+        
+        */
+        
         return true
     }
+    
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -31,10 +76,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(application: UIApplication) {

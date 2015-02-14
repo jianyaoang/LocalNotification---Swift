@@ -12,7 +12,8 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        configuringUILocalNotification()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +21,18 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func configuringUILocalNotification(){
+        var localNotification = UILocalNotification()
+        localNotification.alertAction = "iOS8 Swift Local Notification"
+        localNotification.alertBody = "Hello from Swift"
+        localNotification.fireDate = NSDate(timeIntervalSinceNow: 10)
+        localNotification.category = "SWIFT_HELLO"
+        localNotification.applicationIconBadgeNumber = 1
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
+
+        
+    }
 
 }
 
